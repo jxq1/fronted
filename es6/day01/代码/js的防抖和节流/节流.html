@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<button id="button">点击</button>
+		
+		<script type="text/javascript">
+			function thro(func,wait){
+				// 会执行你点击了多少次 就会执行多少次
+				// 这不是我们想要的 我们想要的是 比喻说 时间是一秒 无论你手速多快 一秒
+				// 内你点了100次我也只执行一次
+				let timerOut
+				// 相当于就是 在办理业务
+				return function(){
+					if(!timerOut){
+						timerOut = setTimeout(function(){
+							func()
+							// 
+							timerOut = null
+						},wait)	
+					}
+				}
+			}
+			function handle(){
+				console.log(Math.random())
+			}
+			document.getElementById('button').onclick = thro(handle,2000)
+		</script>
+	</body>
+</html>

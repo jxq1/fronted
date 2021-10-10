@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<script type="text/javascript">
+			
+			function Blog(body,date,image){
+				// Blog()构造函数创建两个特性
+				this.body = body;
+				this.date = date;
+				this.image = image;
+			}
+			Date.prototype.shortFormat = function(){
+				return (this.date.getMonth()+1)+"/"+this.date.getDate()+"/"+this.date.getFullYear()
+			}
+			Blog.prototype.toString = function(){
+				return "["+(this.date.getMonth()+1)+"/"+
+					this.date.getDate()+"/"+this.date.getFullYear()+"] "+
+					this.body;
+			};
+			Blog.prototype.toHTML = function(highlight){
+				var blogHTML = "";
+				
+				blogHTML += highlight ? "<p style='background-color:#EEEEEE'>" : "<p>";
+				
+				if(this.image){
+					blogHTML += "<strong>"+(this.date.getMonth()+1)+"/"+
+								this.date.getDate()+"/"+
+								this.date.getFullYear()+
+								"</strong><br/><table><tr><td><img src=' "+this.image+" ' style='width:80px;height:80px;'/></td><td style='vertical-align:top'>"+
+								this.body+"</td></tr></table><br/><em>"+this.signature+"</em></p>";
+				}
+				else{
+					blogHTML += "<strong>"+(this.date.getMonth()+1)+"/"+
+							this.date.getDate()+"/"+
+							this.date.getFullYear()+"</strong><br/>"+
+							this.body+"<br/><em>"+this.signature+"</em></p>";
+				}
+				
+				return blogHTML;
+			};
+			Blog.prototype.containsText = function(text){
+				return (this.body.toLowerCase().indexOf(text.toLowerCase())!=-1);
+			};
+			// Blog.prototype.signature = "Puzzler Ruby";
+			
+			alert(Blog.prototype.signature);
+			
+			// 排序比较方法现在是Blog对象的类
+			Blog.blogSorter = function(blog1,blog2) {
+				return blog2.date-blog1.date; 
+			}
+			
+			// 计算时间
+			function getDaysBetween(date1,date2){
+				var daysBetween = (date2-date1)/(1000*60*60*24);
+				return Math.round(daysBetween);
+			}
+			
+			function compare(blog1,blog2){
+				return blog2.date-blog1.date;
+			}
+			
+			var blogEntry = new Blog("Nothing going on but the weather.",
+							new Date("10/31/2008"));
+			
+			var blogDate1 = new Date("08/14/2008");
+			var blogDate2 = new Date("08/19/2008");
+			alert("The dates are separated by"+getDaysBetween(blogDate1,blogDate2)+"days.");
+			
+			// Blog对象的数组
+			// var blog = [new Blog("Got the new cube I order..",new Date("08/14/2008"),"./img/1.jpg"),
+			// 			new Blog("Solved the new cube but of course..",new Date("08/19/2008"),"./img/2.jpg"),
+			// 			new Blog("Managed to get a headache toiling..",new Date("08/20/2008"),"./img/3.jpg")];
+			// 对blog进行了排序，日期最新在前面
+			// blog.sort(function(blog1,blog2) {return blog2.date-blog1.date; });
+			var ajaxReq = new AjaxRequest();
+			// ajaxReq.send("GET","blog.xml",handleRequest);
+			
+			function getText(elem){
+				var text = "";
+				if(elem){
+					if(elem.childNodes){
+						for(var i = 0; i<elem.childNodes.length;i++){
+							var child = elem.childNodes[i];
+							if(child.nodeValue)
+								text + = child.nodeValue;
+							else{
+								if(child.childNodes){
+									if(child.childNodes[0].nodeValue){
+										text +=child.childNodes[o].nodeValue;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			
+			function handleRequest(){
+				if(ajaxReq.getReadyState()==4 && ajaxReq.getStatus() == 200) {
+					var xmlData = ajaxReq.getResponseXML().getElementsByTagName("blog")[0];
+					Blog.prototype.signature = "by"+getText(xmlData.getElementsByTagName("author")[0]);
+					var entries = xmlData.getElementsByTagName("entry");
+					for(var i = 0 ;i <entries.length;i++){
+						blog.push(new Blog(getText(entries[i].getElementsByTagName("body")[0]),
+						new Date(getText(entries[i].getElementsByTagName("date")[0])),
+						getText(entries[i].getElementsByTagName("image")[0])));
+					}
+					showBlog(5);
+					document.getElementById("search").disabled = false;
+					document.getElementById("showall").disabled = false;
+					document.getElementById("showrandom").disabled = false;
+				}
+			}
+			
+			function loadBlog(){
+				document.getElementById("blog").innerHTML = "<img src='img/1.jpg' alt='Loading...' />";
+				ajaxReq.send("GET","blog.xml",handleRequest);
+			}
+			
+			// showBlog()函数在网页的div元素"Blog"里，绘制博客日志数据
+			function showBlog(numEntries){
+				// blog.sort(function(blog1,blog2) {return blog2.date-blog1.date; });
+				// 如果未以自变量传入预备呈现的博客日志编号，则显示所有日志
+				blog.sort(Blog.blogSorter);
+				if(!numEntries)
+					numEntries = blog.length;
+				var i =0,blogText = "";
+				while(i<blog.length && i < numEntries) {
+					// 更改博客日志的背景颜色，让阅读体验更好
+					// if(i % 2 == 0)
+					// 	blogText +="<p style='background-color:#EEEEEE'>";
+					// else
+					// 	blogText +="<p>"
+					// // blogText +="<strong>"+blog[i].date+"</strong><br/>"+blog[i].body+"</p>";
+					// blogText +="<strong>"+(blog[i].date.getMonth()+1)+"/"+
+					// blog[i].date.getDate()+"/"+
+					// blog[i].date.getFullYear()+"</strong><br/>"+
+					// blog[i].body+"</p>";
+						
+					blogText += blog[i].toHTML(i%2 == 0);
+					
+					i++;									  
+				}
+				// 为div元素"blog"设定日志正文的格式
+				document.getElementById("blog").innerHTML = blogText;
+			}
+			
+			function searchBlog() {
+				var searchText = document.getElementById("searchtext").value;
+				for(var i = 0; i<blog.length;i++){
+					// if(blog[i].body.toLowerCase().indexOf(searchText.toLowerCase())!=-1){
+					if(blog[i].containsText(searchText)){
+						// alert("["+(blog[i].date.getMonth()+1)+"/"+
+						// blog[i].date.getDate()+"/"+blog[i].date.getFullYear()+"] "+
+						// blog[i].body);
+						alert(blog[i]);
+						break;
+					}
+				}
+				if(i == blog.length)
+					alert("Sorry, there are no blog entries containing the search text.");
+			}
+			
+			function randomBlog(){
+				var i = Math.floor(Math.random()*blog.length);
+				// alert("["+(blog[i].date.getMonth()+1)+"/"+
+				// 		blog[i].date.getDate()+"/"+blog[i].date.getFullYear()+"] "+
+				// 		blog[i].body);
+				alert(blog[i]);
+			}
+		</script>
+	</head>
+	<body onload="showBlog(5);">
+		<h3>YouCube - The Blog for Cube Puzzlers</h3>
+		<!-- <img src="cube.png" alt="YouCube" /> -->
+		<input type="button" name="" id="search" value="Search the Blog" 
+		disabled="disabled" onclick="searchBlog();" />
+		<input type="text" name="searchtext" id="searchtext" value="" /><br />
+		<div id="blog">
+			
+		</div>
+		<input type="button" name="" id="showall" value="Show All Blog Entries" 
+		disabled="disabled" onclick="showBlog(2);" />
+		<input type="button" name="" id="showrandom" value="View a Random Blog Entries"
+		 disabled="disabled" onclick="randomBlog();" />
+		
+	</body>
+</html>

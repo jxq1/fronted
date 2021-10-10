@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<script type="text/javascript">
+			const target = Object.defineProperty({},'a',{
+				value:1,
+				writable:true,
+				enumerable:true,
+				configurable:true
+			});
+			
+			const res = Object.assign(target,{b:2},{b:3,a:100},{c:4});
+			
+			delete target.c
+			
+			for(let k in target){
+				console.log(k,target[k])
+			}
+			
+			for(let j in res){
+				console.log(j,res[j])
+			}
+		</script>
+	</body>
+</html>

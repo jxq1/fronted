@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+	</head>
+	<body>
+		<script type="text/javascript">
+			var p = new Promise (resolve => {
+			  console.log(4) // 直接输出
+			  resolve(5) // 微任务
+			})
+			
+			function fun1() {
+			  console.log(1) // 直接输出
+			}
+			
+			function fun2() {
+			  setTimeout(() => {
+			    console.log(2) // 消息队列
+			  },0)
+			  fun1()
+			  console.log(3) // 直接输出
+			  p.then(resolve => {
+			    console.log(resolve)
+			  })
+			}
+			fun2()
+		</script>
+	</body>
+</html>

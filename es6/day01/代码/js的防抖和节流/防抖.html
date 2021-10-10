@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+	</head>
+	<body>
+		<input type="text" id="input" />
+		
+		<script type="text/javascript">
+			var input = document.getElementById('input')
+			
+			// 防抖函数
+			// function debounce(delay,value){
+			// 	let timer
+			// 	clearTimeout(timer)
+			// 	// 我们想要清除的是setTimeout 我们应该存储这个timer的变量
+			// 	// timer变量需要一直保存在内存当中
+			// 	// 闭包
+			// 	setTimeout(function(){
+			// 		console.log(value)
+			// 	},delay)
+			// }
+			
+			function debounce(delay,callback){
+				let timer
+				return function(value){
+					clearTimeout(timer)
+					// 我们想要清除的是setTimeout 我们应该存储这个timer的变量
+					// timer变量需要一直保存在内存当中
+					// 闭包
+					timer = setTimeout(function(){
+						// console.log(value)
+						callback(value)
+					},delay)
+				}
+			}
+			
+			function fn(value){
+				console.log(value)
+			}
+			
+			var debounceFunc = debounce(3000,fn)
+			// 我们需要的是 首先 输入框的结果只出现一次，是在我键盘抬起后一秒内都没有再次输入
+			input.addEventListener('keyup',function(e){
+				debounceFunc(e.target.value)
+			})
+		</script>
+	</body>
+</html>

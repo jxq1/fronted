@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+	</head>
+	<style type="text/css">
+		#d1 {
+			width: 200px;
+			height: 200px;
+			background-color: aqua;
+		}
+	</style>
+	<body>
+		<div id="d1">
+			
+		</div>
+		<script type="text/javascript">
+		
+			// setTimeout(function(){
+			// 	var d1 = document.querySelector("#d1");
+			// 	d1.style.backgroundColor = "pink";
+			// 	setTimeout(function(){
+			// 		var d1 = document.querySelector("#d1");
+			// 		d1.style.backgroundColor = "blue"
+			// 	})
+			// },3000)
+			
+			var fnPromise1 = function(){
+				return new Promise(function(resolve,reject){
+					setTimeout(function(){
+						var d1 = document.querySelector("#d1");
+						d1.style.backgroundColor = "pink";
+						resolve("3秒改变了d1的颜色");
+					},3000);
+				})
+			}
+			
+			var fnPromise2 = function(){
+				return new Promise(function(resolve,reject){
+					setTimeout(function(){
+						var d1 = document.querySelector("#d1");
+						d1.style.backgroundColor = "blueviolet";
+						resolve("2秒改变了d2的颜色");
+					},2000);
+					reject("失败了")
+				})
+			}
+			
+			var fnPromise3 = function(){
+				return new Promise(function(resolve,reject){
+					reject("失败了")
+				})
+			}
+			
+			async function demo(){
+				try{
+					var result1 = await fnPromise1();
+					var result2 = await fnPromise2();
+					var result3 = await fnPromise3();
+					console.log(result1);
+					console.log(result2);
+					console.log(result3);
+				}catch(e){
+					console.log(e);
+				}
+				
+			}
+			
+			demo();
+			
+			// fnPromise1().then(function(res){
+			// 	console.log(res);
+			// })
+		</script>
+	</body>
+</html>

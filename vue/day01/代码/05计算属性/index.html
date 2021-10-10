@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div id="app">
+			<!-- 一般情况下写法 -->
+			<h1>{{firstname+lastname}}</h1>
+			<!-- 计算属性 -->
+			<h1>{{fullname}}</h1>
+			<!-- /显示一个单词的逆序 -->
+			<h1>{{word.split("").reverse().join("")}}</h1>
+			<h1>{{reverseWord}}</h1>
+			
+			<!-- 循环偶数的年龄 -->
+			<ul>
+				<li v-for="item,index in oddStudents">
+					<h3>{{item.studentName}}</h3>
+					<h4>{{item.age}}</h4>
+					<h5>{{item.school}}</h5>
+				</li>
+			</ul>
+		</div>
+		<script type="text/javascript">
+			var app= new Vue({
+				el:"#app",
+				data:{
+					firstname:"张",
+					lastname:"三",
+					word:"music",
+					students:[
+						{
+							studentName:"小明",
+							age:16,
+							school:"清华",
+							imgheader:""
+						},
+						{
+							studentName:"小白",
+							age:17,
+							school:"北大"
+						},
+						{
+							studentName:"小红",
+							age:18,
+							school:"复旦"
+						},
+						{
+							studentName:"小黑",
+							age:15,
+							school:"浙大"
+						},
+					]
+				},
+				computed:{
+					fullname:function(){
+						console.log(this)
+						// 会将计算的结果进行缓存，只要this.firstname+this.lastname的变量不变
+						return this.firstname+this.lastname
+					},
+					reverseWord:function(){
+						return this.word.split("").reverse().join("")
+					},
+					oddStudents:function(){
+						let results = this.students.filter((item,i)=>{
+							return item.age%2==0
+						})
+						return results
+					}
+				}
+			})
+		</script>
+	</body>
+</html>

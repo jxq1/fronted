@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<script src="js/bannerocity.js" type="text/javascript" charset="utf-8"></script>
+		
+	</head>
+	<body>
+		<form action="" method="">
+		<div >
+			<div id="">
+				Enter ZIP code of the location:<input type="text" name="zipcode" id="zipcode" size="5" 
+				onblur="validateZIPCode(this,document.getElementById('zipcode_help'))" value="" />
+				<span id="zipcode_help" class="help"></span>
+			</div>
+			
+			<!-- Enter your name:<input type="text" name="name" id="name" size="32" onblur="validateNonEmpty(this)" value="" /> -->
+			Enter your name:<input type="text" name="name" id="name" size="32" onblur="validateNonEmpty(this,document.getElementById('name_code'))" value="" />
+			<span id="name_code"></span>
+			<div>
+				Enter message:<input type="text" name="message" id="message" value="" 
+				onblur="validateLength(1,32,this,document.getElementById('message_help'))"/>
+				<span id="message_help" class="help"></span>
+			</div>
+			<div>
+				Enter date:<input type="text" name="data" id="data" value="" 
+				onblur="validateDate(this,document.getElementById('data_help'))"/>
+				<span id="data_help" class="help"></span>
+			</div>
+			<div>
+				Enter phone:<input type="text" name="phone" id="phone" value="" 
+				onblur="validatePhone(this,document.getElementById('phone_help'))"/>
+				<span id="phone_help" class="help"></span>
+			</div>
+			<div>
+				Enter email address:<input type="text" name="email" id="email" value="" 
+				onblur="validateEmail(this,document.getElementById('email_help'))"/>
+				<span id="email_help" class="help"></span>
+			</div>
+		</div>
+		<div id="">
+				<input type="button" value="Order Banner" onclick="placeOrder(this.form)" />
+		</div>
+		</form>
+	</body>
+</html>

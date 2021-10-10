@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<script type="text/javascript">
+			function touchRock(){
+				var userName = prompt("what is your name?","Enter your name here.");
+				if(userName){
+					alert("It is good to meet you,"+userName+".");
+					console.log(document.getElementById("rockImg").src);
+					document.getElementById("rockImg").src = "img/rock_happy.jpg";
+					setTimeout("document.getElementById('rockImg').src = 'img/rock.jpg';",30*1000);
+				}
+			
+			}
+		</script>
+	</head>
+	<!-- <body onload="alert('hello,I am your pet rock.');"> -->
+	<body>
+		<div id="" style="margin-top: 100px; text-align: center;">
+			<img id="rockImg" src="img/rock.jpg" alt="iRock" style="cursor:pointer ;" onclick="touchRock()">
+		</div>
+	</body>
+</html>

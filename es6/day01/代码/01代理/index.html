@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+	</head>
+	<body>
+		<script type="text/javascript">
+			var user = {
+				name:"小明",
+				age:16
+			}
+			
+			// 设置代理对象
+			var pUser = new Proxy(user,{
+				// 代理获取属性
+				get(target,attr){
+					console.log(target);
+					console.log(attr);
+					return target[attr]
+				},
+				set(target,attr,value){
+					// console.log(target)
+					// console.log(attr)
+					// console.log(value)
+					if(value >= 0 && value <=150){
+						target[attr] = value;
+					}else{
+						console.log("不能设置超出范围的年龄，范围是[0-150]")
+					}
+					
+				}
+			})
+			
+			// var age = pUser.age
+			var age = pUser.age
+		</script>
+	</body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+	</head>
+	<body>
+		<script type="text/javascript">
+			// 1.利用Map对象和数组的filter方法
+			var arr1 = [1,'1',1,undefined,undefined,NaN,NaN]
+			function unique1(arr) {
+				const res = new Map();
+				return arr.filter((a)=>!res.has(a)&&res.set(a,1))
+			}
+			var newArr1 = unique1(arr1)
+			console.log(newArr1)
+			
+			// 2.利用Set对象和数组的Array.from方法
+			var arr2 = [1,'1',1,2,3,4,undefined,undefined,NaN,NaN]
+			function unique2(arr){
+				return Array.from(new Set(arr))
+			}
+			var newArr2 = unique2(arr2);
+			console.log(newArr2);
+			
+			// 3.利用Set+扩展运算符...
+			var arr3 = [1,'1',2,3,4,4,4,4,5,undefined,undefined,NaN,NaN]
+			var newArr3 = [...new Set(arr3)]
+			console.log(newArr3)
+		</script>
+	</body>
+</html>

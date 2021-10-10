@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+	</head>
+	<body>
+		<script type="text/javascript">
+			var a =123
+			var obj = {}
+			
+			var person = {
+				name:"蒋江江",
+				hobby:['学习',['看电影','shopping'],'跑步']
+			}
+			
+			// 赋值
+			// var person1 = person
+			// person1.name = '王晓星'
+			// person1.hobby[0] = '唱歌'
+			// console.log(person)
+			// console.log(person1)
+			
+			// 浅拷贝
+			function shallowCopy(obj){
+				var target = {}
+				for(var i in obj){
+					if(obj.hasOwnProperty(i)){
+						target[i] = obj[i]
+					}
+				}
+				return target
+			}
+			// var person2 = shallowCopy(person)
+			// // name为基本数据类型，浅拷贝不影响
+			// person2.name = '王晓星'
+			// // hobby我引用类型，浅拷贝影响
+			// person2.hobby[0] = '唱歌'
+			// console.log(person)
+			// console.log(person2)
+			
+			// 深拷贝
+			function deepClone(obj){
+				var cloneObj = new obj.constructor()
+				if(obj === null) return obj
+				if(obj instanceof Date) return new Date(obj)
+				if(obj instanceof RegExp) return new RegExp(obj)
+				if(typeof obj !=='object')
+					return obj
+				for(var i in obj){
+					if(obj.hasOwnProperty(i)){
+						cloneObj[i] = deepClone(obj[i])
+					}
+				}
+				return cloneObj
+			}
+			
+			// var person3 = JSON.parse(JSON.stringify(person)) //这个也是深拷贝，但有缺点，正则表达式和时间等不能拷贝过去
+			var person3 = deepClone(person)
+			person3.name = '王晓星'
+			person3.hobby[0] = '唱歌'
+			console.log(person)
+			console.log(person3)
+		</script>
+	</body>
+</html>
